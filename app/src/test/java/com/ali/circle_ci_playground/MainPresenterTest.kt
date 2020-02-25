@@ -10,8 +10,8 @@ class MainPresenterTest {
     private lateinit var mainPresenter: MainPresenter
 
     @Before
-    fun setup(){
-
+    fun setup() {
+        mainPresenter = MainPresenter()
     }
 
     @Test
