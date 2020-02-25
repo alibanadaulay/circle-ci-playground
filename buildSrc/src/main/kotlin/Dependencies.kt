@@ -11,9 +11,9 @@ object Dependencies {
     object Plugins {
         const val androidApplication = "com.android.application"
         const val androidLibrary = "com.android.library"
-        const val kotlinAndroid = "kotlin-android"
-        const val kotlinAndroidExtensions = "kotlin-android-extensions"
-        const val kotlinKapt = "kotlin-kapt"
+        const val kotlinAndroid = "android"
+        const val kotlinAndroidExtensions = "android.extensions"
+        const val kotlinKapt = "kapt"
         const val navigation_safeargs = "androidx.navigation.safeargs"
         const val dataBinding = " com.android.databinding:compiler:$buildGradleVersion"
     }
@@ -22,6 +22,7 @@ object Dependencies {
         private const val junitVersion = "4.12"
         private const val coreVersion = "1.1.0"
         private const val mockitoVersion = "1.10.19"
+        private const val mockito2Version = "2.23.0"
 
         const val junit = "junit:junit:$junitVersion"
         const val testCore = "androidx.test:core:1.0.0"
@@ -30,6 +31,7 @@ object Dependencies {
         const val testRules = "androidx.test:rules:$coreVersion"
         const val testRunner = "androidx.test:runner:$coreVersion"
         const val mockitoCore = "org.mockito:mockito-core:$mockitoVersion"
+        const val mockito2Core = "org.mockito:mockito-core:$mockito2Version"
     }
 
     object AndroidSupport {
