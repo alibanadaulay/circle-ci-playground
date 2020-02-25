@@ -3,10 +3,10 @@ package com.ali.circle_ci_playground
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 
 class MainPresenterTest {
 
-    @Mock
     private lateinit var mainPresenter: MainPresenter
 
     @Before
@@ -21,6 +21,6 @@ class MainPresenterTest {
 
     @Test
     fun verify_return_values_is_false() {
-        assert(mainPresenter.sampleTest(2))
+        assert(!mainPresenter.sampleTest(2))
     }
 }
