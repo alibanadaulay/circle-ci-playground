@@ -73,5 +73,5 @@ dependencies {
     testImplementation(Dependencies.UnitTest.testRunner)
     testImplementation(Dependencies.UnitTest.testRules)
     testImplementation(Dependencies.UnitTest.extJunit)
-    testImplementation(Dependencies.UnitTest.mockitoCore)
+    testImplementation(Dependencies.UnitTest.mockito2Core)
 }
