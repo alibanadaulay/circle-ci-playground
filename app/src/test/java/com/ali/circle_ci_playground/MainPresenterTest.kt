@@ -21,6 +21,6 @@ class MainPresenterTest {
 
     @Test
     fun verify_return_values_is_false() {
-        assert(!mainPresenter.sampleTest(2))
+        assert(!mainPresenter.sampleTest(7))
     }
 }
