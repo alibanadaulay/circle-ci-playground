@@ -61,6 +61,7 @@ dependencies {
     implementation(Dependencies.Retrofit.retrofit)
     implementation(Dependencies.Retrofit.retrofitGson)
     implementation(Dependencies.Retrofit.gson)
+    implementation(Dependencies.Retrofit.rxJavaConverter)
 
     //Room
     implementation(Dependencies.Room.roomRunTime)
@@ -74,4 +75,9 @@ dependencies {
     testImplementation(Dependencies.UnitTest.testRules)
     testImplementation(Dependencies.UnitTest.extJunit)
     testImplementation(Dependencies.UnitTest.mockito2Core)
+    testImplementation(Dependencies.UnitTest.mockWebServer)
+
+    //LiveData
+    implementation(Dependencies.Lifecycle.viewModel)
+    implementation(Dependencies.Lifecycle.runTime)
 }

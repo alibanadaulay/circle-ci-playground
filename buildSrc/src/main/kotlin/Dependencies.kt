@@ -32,6 +32,7 @@ object Dependencies {
         const val testRunner = "androidx.test:runner:$coreVersion"
         const val mockitoCore = "org.mockito:mockito-core:$mockitoVersion"
         const val mockito2Core = "org.mockito:mockito-core:$mockito2Version"
+        const val mockWebServer = "com.squareup.okhttp3:mockwebserver:4.2.1"
     }
 
     object AndroidSupport {
@@ -88,6 +89,8 @@ object Dependencies {
         const val retrofit = "com.squareup.retrofit2:retrofit:2.6.0"
         const val retrofitGson = "com.squareup.retrofit2:converter-gson:2.5.0"
         const val gson = "com.google.code.gson:gson:2.8.5"
+        const val rxJavaConverter = "com.squareup.retrofit2:adapter-rxjava2:2.7.2"
+
     }
 
     object Room {
