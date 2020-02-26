@@ -3,11 +3,9 @@ package com.ali.circle_ci_playground
 import com.ali.circle_ci_playground.data.Dummy
 import com.ali.circle_ci_playground.data.model.Employee
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.Schedulers
-import okhttp3.ResponseBody
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -17,15 +15,12 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.MockitoAnnotations
-import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.io.IOException
 import java.net.HttpURLConnection
-import java.util.concurrent.Callable
 
 
 class MainViewModelTest {
@@ -43,11 +38,9 @@ class MainViewModelTest {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-//        Dispatchers.setMain(testDispatcher)
         MainViewModel.mIMain = main
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
         mMockWebServer.start(8080)
-//        mLoginVM = LoginViewModel(mUserService, mSharedPreferences, mNetworkUtils)
         val retrofit = Retrofit.Builder()
             .baseUrl("http://localhost:8080")
             .addConverterFactory(GsonConverterFactory.create())
@@ -61,7 +54,6 @@ class MainViewModelTest {
     @After
     fun tearDown() {
         mMockWebServer.shutdown()
-//        RxAndroidPlugins.reset()
     }
 
     @Test
