@@ -2,15 +2,17 @@ package com.ali.circle_ci_playground
 
 import com.ali.circle_ci_playground.data.Dummy
 import com.ali.circle_ci_playground.data.model.Employee
+import com.ali.circle_ci_playground.di.module.NetworkModule
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.internal.schedulers.ExecutorScheduler
 import io.reactivex.observers.TestObserver
 import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.SocketPolicy
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
@@ -24,7 +26,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.net.HttpURLConnection
+import java.net.SocketTimeoutException
 import java.util.concurrent.Executor
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 //@RunWith(MockitoJUnitRunner.class)
 class MainViewModelTest {
@@ -61,6 +66,13 @@ class MainViewModelTest {
         MockitoAnnotations.initMocks(this)
         mMockWebServer.start(8080)
         val retrofit = Retrofit.Builder()
+            .client(
+                OkHttpClient.Builder()
+                    .connectTimeout(NetworkModule.TIMEOUT.toLong(), TimeUnit.SECONDS)
+                    .readTimeout(NetworkModule.TIMEOUT.toLong(), TimeUnit.SECONDS)
+                    .writeTimeout(NetworkModule.TIMEOUT.toLong(), TimeUnit.SECONDS)
+                    .build()
+            )
             .baseUrl("http://localhost:8080")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -89,6 +101,18 @@ class MainViewModelTest {
     }
 
     @Test
+    fun get_employee_timeout() {
+        val response = MockResponse()
+            .setBody("[]")
+        response.socketPolicy = SocketPolicy.NO_RESPONSE
+        mMockWebServer.enqueue(response)
+        val final: TestObserver<Response<List<Employee>>> = serverDUmmy.getEmployees().test()
+        final.assertError(SocketTimeoutException::class.java)
+        final.assertNotComplete()
+        final.assertNoValues()
+    }
+
+    @Test
     fun verify_on_success_is_called() {
         val mockList: ArrayList<Employee> = ArrayList()
         mockList.add(Employee(1, "a", 20000.0, 22))
@@ -98,13 +122,20 @@ class MainViewModelTest {
     }
 
     @Test
+    fun verify_on_onTimeout_is_called() {
+        `when`(mDummy.getEmployees()).thenReturn(Observable.error(SocketTimeoutException()))
+        mainViewModel.getEmployees()
+        verify(main, times(1)).onError()
+    }
+
+    @Test
     fun verify_on_onError_is_called() {
         `when`(mDummy.getEmployees()).thenReturn(Observable.error(Throwable()))
         mainViewModel.getEmployees()
         verify(main, times(1)).onError()
     }
 
-    fun getJson(path: String): String {
+    private fun getJson(path: String): String {
         // Load the JSON response
         val uri = this.javaClass.classLoader?.getResource(path)
         val file = File(uri!!.path)

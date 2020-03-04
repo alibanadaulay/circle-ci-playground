@@ -20,7 +20,7 @@ class NetworkModule(private val url: String) {
 
     companion object {
         private const val TAG = "Network"
-        private const val TIMEOUT = 30
+        const val TIMEOUT = 5
     }
 
     @Provides
