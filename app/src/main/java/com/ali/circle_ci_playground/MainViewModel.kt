@@ -3,10 +3,10 @@ package com.ali.circle_ci_playground
 import androidx.lifecycle.ViewModel
 import com.ali.circle_ci_playground.`interface`.SchedulerProvides
 import com.ali.circle_ci_playground.data.Dummy
-import io.reactivex.disposables.CompositeDisposable
 
-class MainViewModel(private val mDummy: Dummy) : ViewModel() {
-
+class MainViewModel(
+    private val mDummy: Dummy
+) : ViewModel() {
     companion object {
         lateinit var mIMain: IMain
     }
@@ -16,8 +16,8 @@ class MainViewModel(private val mDummy: Dummy) : ViewModel() {
         fun onError()
     }
 
-    private val mCompositeDisposable by lazy {
-        CompositeDisposable()
+    fun initListener(view: IMain) {
+        mIMain = view
     }
 
     fun getEmployees() {
@@ -33,6 +33,5 @@ class MainViewModel(private val mDummy: Dummy) : ViewModel() {
             }, {
                 mIMain.onError()
             })
-//        mCompositeDisposable.add(disposable)
     }
 }

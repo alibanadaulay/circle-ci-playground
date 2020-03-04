@@ -23,6 +23,7 @@ object Dependencies {
         private const val coreVersion = "1.1.0"
         private const val mockitoVersion = "1.10.19"
         private const val mockito2Version = "2.23.0"
+        private const val mockkVersion = "1.9.3"
 
         const val junit = "junit:junit:$junitVersion"
         const val testCore = "androidx.test:core:1.0.0"
@@ -33,6 +34,8 @@ object Dependencies {
         const val mockitoCore = "org.mockito:mockito-core:$mockitoVersion"
         const val mockito2Core = "org.mockito:mockito-core:$mockito2Version"
         const val mockWebServer = "com.squareup.okhttp3:mockwebserver:4.2.1"
+        const val mockkAndroid = "io.mockk:mockk-android:$mockkVersion"
+        const val mockk = "io.mockk:mockk:$mockkVersion"
     }
 
     object AndroidSupport {

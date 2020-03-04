@@ -16,6 +16,10 @@ android {
         versionName = Config.DefaultConfig.versionName
         testInstrumentationRunner = Config.testInstrumentationRunner
     }
+    compileOptions {
+        setSourceCompatibility(JavaVersion.VERSION_1_8)
+        setTargetCompatibility(JavaVersion.VERSION_1_8)
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
@@ -76,6 +80,9 @@ dependencies {
     testImplementation(Dependencies.UnitTest.extJunit)
     testImplementation(Dependencies.UnitTest.mockito2Core)
     testImplementation(Dependencies.UnitTest.mockWebServer)
+    testImplementation(Dependencies.UnitTest.mockkAndroid)
+    testImplementation(Dependencies.UnitTest.mockk)
+    androidTestImplementation(Dependencies.UnitTest.mockkAndroid)
 
     //LiveData
     implementation(Dependencies.Lifecycle.viewModel)
