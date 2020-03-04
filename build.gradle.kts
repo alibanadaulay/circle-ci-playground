@@ -15,7 +15,6 @@ allprojects {
         mavenCentral()
         google()
         jcenter()
-
     }
 }
 
