@@ -9,7 +9,5 @@ import javax.inject.Singleton
 @Module
 class ViewModelModule {
     @Provides
-    @Singleton
     fun providesViewModelFactory(mDummy: Dummy): ViewModelFactory = ViewModelFactory(mDummy)
-
 }

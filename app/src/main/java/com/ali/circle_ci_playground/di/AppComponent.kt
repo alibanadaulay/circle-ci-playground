@@ -1,6 +1,7 @@
 package com.ali.circle_ci_playground.di
 
 import com.ali.circle_ci_playground.App
+import com.ali.circle_ci_playground.di.module.ActivityModule
 import com.ali.circle_ci_playground.di.module.NetworkModule
 import com.ali.circle_ci_playground.di.module.ViewModelModule
 import dagger.BindsInstance
@@ -9,7 +10,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
 
-@Component(modules = [AndroidSupportInjectionModule::class, NetworkModule::class, ViewModelModule::class])
+@Component(modules = [AndroidSupportInjectionModule::class, NetworkModule::class, ViewModelModule::class, ActivityModule::class])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
     fun inject(app: App)

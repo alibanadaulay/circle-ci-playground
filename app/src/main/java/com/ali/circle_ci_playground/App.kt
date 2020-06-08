@@ -18,9 +18,9 @@ class App : Application(), HasActivityInjector {
     }
 
     @Inject
-    lateinit var activityDispatchinInjector: DispatchingAndroidInjector<Activity>
+    lateinit var activityDispatchingInjector: DispatchingAndroidInjector<Activity>
 
-    override fun activityInjector(): AndroidInjector<Activity> = activityDispatchinInjector
+    override fun activityInjector(): AndroidInjector<Activity> = activityDispatchingInjector
 
     override fun onCreate() {
         super.onCreate()

@@ -1,5 +1,6 @@
 package com.ali.circle_ci_playground
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ali.circle_ci_playground.`interface`.SchedulerProvides
 import com.ali.circle_ci_playground.data.Dummy
@@ -7,31 +8,23 @@ import com.ali.circle_ci_playground.data.Dummy
 class MainViewModel(
     private val mDummy: Dummy
 ) : ViewModel() {
-    companion object {
-        lateinit var mIMain: IMain
-    }
 
-    interface IMain {
-        fun onSuccess()
-        fun onError()
-    }
+    val messageFromServer: MutableLiveData<String> = MutableLiveData()
 
-    fun initListener(view: IMain) {
-        mIMain = view
-    }
 
     fun getEmployees() {
+        messageFromServer.value = "Loading"
         mDummy.getEmployees()
             .observeOn(SchedulerProvides.main())
             .subscribeOn(SchedulerProvides.io())
             .subscribe({ response ->
                 if (response.isSuccessful) {
-                    mIMain.onSuccess()
+                    messageFromServer.value = "Success retrieve data from server"
                 } else {
-                    mIMain.onError()
+                    messageFromServer.value = "Success retrieve data from server"
                 }
             }, {
-                mIMain.onError()
+                messageFromServer.value = "Failed get data from server"
             })
     }
 }

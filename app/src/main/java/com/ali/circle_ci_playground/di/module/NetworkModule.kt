@@ -10,8 +10,10 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.lang.Exception
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
@@ -20,7 +22,7 @@ class NetworkModule(private val url: String) {
 
     companion object {
         private const val TAG = "Network"
-        const val TIMEOUT = 5
+        const val TIMEOUT = 60
     }
 
     @Provides
@@ -29,7 +31,7 @@ class NetworkModule(private val url: String) {
             .baseUrl(url)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
 
@@ -43,10 +45,6 @@ class NetworkModule(private val url: String) {
             .build()
     }
 
-    @Provides
-    fun providesGson(): Gson {
-        return Gson()
-    }
 
     @Provides
     fun providesInterceptor(): Interceptor {
@@ -56,23 +54,8 @@ class NetworkModule(private val url: String) {
             val requestBuilder = request.newBuilder()
             try {
                 response = chain.proceed(requestBuilder.build())
-                if (response.isSuccessful) {
-                    Log.i(
-                        TAG, "Response: " + response.code() + " <- " +
-                                response.networkResponse()!!.request().method() +
-                                " " + response.networkResponse()!!.request().url()
-                    )
-                } else {
-                    Log.e(
-                        TAG, "Response: " + response.code() + " <- " +
-                                response.networkResponse()!!.request().method() +
-                                " " + response.networkResponse()!!.request().url()
-                    )
-                    Log.e(TAG, response.headers().toString())
-                }
-            } catch (exception: IOException) {
-                response = chain.proceed(request)
-            } catch (exception: SocketTimeoutException) {
+                logResponse(response)
+            } catch (exception: Exception) {
                 response = chain.proceed(request)
             }
             response
@@ -81,4 +64,22 @@ class NetworkModule(private val url: String) {
 
     @Provides
     fun createDummy(retrofit: Retrofit) = retrofit.create(Dummy::class.java)
+
+    private fun logResponse(response: Response?) {
+        if (response != null) {
+            if (response.isSuccessful) {
+                Log.i(
+                    TAG, "Response: " + response.code() + " <- " +
+                            response.networkResponse()!!.request().method() +
+                            " " + response.networkResponse()!!.request().url()
+                )
+            } else {
+                Log.e(
+                    TAG, "Response: " + response.code() + " <- " +
+                            response.networkResponse()!!.request().method() +
+                            " " + response.networkResponse()!!.request().url()
+                )
+            }
+        }
+    }
 }

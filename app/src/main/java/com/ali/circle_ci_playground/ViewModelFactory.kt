@@ -7,11 +7,9 @@ import java.lang.IllegalArgumentException
 
 class ViewModelFactory constructor(private val mDummy: Dummy) : ViewModelProvider.Factory {
 
-//    private lateinit var creators:Map<Class<?:Cl>>
-
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-//            return MainViewModel(mDummy) as T
+            return MainViewModel(mDummy) as T
         }
         throw IllegalArgumentException("Class not found")
     }
